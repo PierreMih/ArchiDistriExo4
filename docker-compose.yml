@@ -13,6 +13,7 @@ services:
       - "4040:4040"
       - "8888:8888"
     volumes:
+      - ./csv_files:/home/jovyan/csv_files
       - ./volumes/spark:/home/jovyan/work
       - ./jars:/opt/spark/jars
 
