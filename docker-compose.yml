@@ -1,0 +1,48 @@
+services:
+  db:
+    image: mysql:9.0.1
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./volumes/mysql/:/var/lib/mysql
+  spark:
+    image: jupyter/pyspark-notebook:x86_64-spark-3.5.0
+    ports:
+      - "4040:4040"
+      - "8888:8888"
+    volumes:
+      - ./volumes/spark:/home/jovyan/work
+      - ./jars:/opt/spark/jars
+
+#  spark-master:
+#    image: apache/spark-py:v3.4.0
+#    environment:
+#      - SPARK_NODE_ROLE=master
+#      - SPARK_MASTER_CORES=1
+#      - SPARK_MASTER_MEMORY=3g
+#    entrypoint: sh sbin/start-master.sh
+#    depends_on:
+#      db:
+#        condition: service_started
+#  spark-slave-1:
+#    image: apache/spark-py:v3.4.0
+#    environment:
+#      - SPARK_NODE_ROLE=slave
+#      - SPARK_MASTER_URL=spark-master:7077
+#      - SPARK_WORKER_CORES=1
+#      - SPARK_WORKER_MEMORY=8g
+#    depends_on:
+#      spark-master:
+#        condition: service_started
+#  spark-slave-2:
+#    image: apache/spark-py:v3.4.0
+#    environment:
+#      - SPARK_NODE_ROLE=slave
+#      - SPARK_MASTER_URL=spark-master:7077
+#      - SPARK_WORKER_CORES=1
+#      - SPARK_WORKER_MEMORY=8g
+#    depends_on:
+#      spark-master:
+#        condition: service_started
